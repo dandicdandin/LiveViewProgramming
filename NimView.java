@@ -26,9 +26,4 @@ class NimView {
         }
         Clerk.write(liveView, turtle.toString()); // Güncellenmiş durumu göster
     }
-
-    public static void main(String[] args) {
-        Nim game = new Nim(2, 3, 4); // Örnek Nim oyunu
-        NimView view = new NimView(game); // NimView ile göster
-    }
 }

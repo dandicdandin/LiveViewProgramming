@@ -1,2 +1,3 @@
-/open lvp.java;
-Clerk.view();
+/open lvp.java
+Clerk.view()
+/open Nim.java

@@ -1,50 +1,47 @@
-import java.util.Arrays;
-
 class NimView {
     private final Nim nim;
-    private final LiveView view;
 
     NimView(Nim nim) {
-        Nim nim = this.nim;
-        view = Clerk.view;
+        this.nim = nim;
     }
 
     private int[] parseNim(Nim nim) {
-        String[] lines = nim.toString().split("\\r?\\n"); // ein String-Array für jede Linie des Output-String-Texts aus der Rückgabe des Nims
+        String[] lines = nim.toString().replaceFirst("\\r?\\n", "").split("\\r?\\n"); // ein String-Array für jede Linie des Output-String-Texts aus der Rückgabe des Nims
         int[] rows = new int[lines.length]; // Zahl der Linien
         for(int i = 0; i < lines.length; i++) {
-            line = lines[i].replaceAll("\\s", "");
-            rows = line.length(); // Zahl der Hoelzschen in jeder Linie
+            rows[i] = lines[i].replaceAll("\\s", "").length(); // Zahl der Hoelzschen in jeder Linie
         }
 
         return rows;
     }
 
-    public static Turtle drawHoelzschen(Turle t, int size, number) {
-        if (number == 0) return t;
-        t.left(90).forward(size).penUp().backward(size).right(90).forward(size/4);
-        drawHoelzschen(t, size, number-1);
-        t.backward(size/4);
+    public Turtle drawHoelzschen(Turtle t, double size, int number) { // Diese Methode zeichnet rekursiveweise die Hoelzschen mit angegebener Zahl.
+        if (number == 0) return t; // Wenn keine Hoelzschen mehr zu zeichnen ist, ANKER.
+        t.penDown().left(90).forward(size).penUp().backward(size).right(90).forward(size/4); // Zeichne Hoelzschen
+        drawHoelzschen(t, size, number-1); // Zeiche naechste Hoelzschen
+        t.backward(size/4); // geh zurueck zu Anfangspunkt mwahhh ^3^
         return t;
     }
 
     public void show() {
-        rows = parseNim(nim)
-        Turtle t = new Turtle(500, 500);
+        Clerk.clear();
+        int[] rows = parseNim(nim); // Parsiere nim to array
+        double size = 100;
+        int width = (int) (size*2 + 100);
+        int height = (int) ((size*rows.length)+((rows.length-1)*size*0.1)+100);
+        Turtle t = new Turtle(width, height).penUp().backward((int)((width-100)/2)).left(90).forward((int)((height-100)/2)-size).right(90);
         for(int n: rows) {
-            drawHoelzschen(t, 20, n);
-            t.right(90).forward(30).left(90);
+            System.out.println(n);
+            drawHoelzschen(t, size, n);
+            t.right(90).forward(size * 1.1f).left(90);
         }
     }
 
     @java.lang.Override
     public java.lang.String toString() {
         show();
-        return nim;
+        return nim.toString();
     }
 }
 
-
-
-Nim nm = Nim.of(5, 4, 3);
 NimView zs = new NimView(Nim.of(5, 4, 3));

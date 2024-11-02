@@ -2,28 +2,49 @@ import java.util.Arrays;
 
 class NimView {
     private final Nim nim;
-    private final LiveView liveView;
+    private final LiveView view;
 
     NimView(Nim nim) {
-        this.nim = nim;
-        this.liveView = Clerk.view(); // Yeni bir LiveView başlatır
-        show(); // Başlangıç durumu göster
+        Nim nim = this.nim;
+        view = Clerk.view;
     }
 
-    // Nim durumunu tarayıcıda görsel olarak gösterir
-    void show() {
-        Clerk.clear(liveView); // Turtle ekranını temizle
-        Turtle turtle = new Turtle(300, 300); // Başlangıç noktası
-
-        for (int i = 0; i < nim.getRows().length; i++) {
-            int sticks = nim.getRows()[i]; // Her satırdaki çubuk sayısını al
-            for (int j = 0; j < sticks; j++) {
-                // Her çubuk için bir çubuk çiz
-                turtle.forward(20).right(90).forward(5).backward(5).left(90);
-            }
-            // Bir sonraki satıra geç
-            turtle.backward(sticks * 20).right(90).forward(30).left(90); 
+    private int[] parseNim(Nim nim) {
+        String[] lines = nim.toString().split("\\r?\\n"); // ein String-Array für jede Linie des Output-String-Texts aus der Rückgabe des Nims
+        int[] rows = new int[lines.length]; // Zahl der Linien
+        for(int i = 0; i < lines.length; i++) {
+            line = lines[i].replaceAll("\\s", "");
+            rows = line.length(); // Zahl der Hoelzschen in jeder Linie
         }
-        Clerk.write(liveView, turtle.toString()); // Güncellenmiş durumu göster
+
+        return rows;
+    }
+
+    public static Turtle drawHoelzschen(Turle t, int size, number) {
+        if (number == 0) return t;
+        t.left(90).forward(size).penUp().backward(size).right(90).forward(size/4);
+        drawHoelzschen(t, size, number-1);
+        t.backward(size/4);
+        return t;
+    }
+
+    public void show() {
+        rows = parseNim(nim)
+        Turtle t = new Turtle(500, 500);
+        for(int n: rows) {
+            drawHoelzschen(t, 20, n);
+            t.right(90).forward(30).left(90);
+        }
+    }
+
+    @java.lang.Override
+    public java.lang.String toString() {
+        show();
+        return nim;
     }
 }
+
+
+
+Nim nm = Nim.of(5, 4, 3);
+NimView zs = new NimView(Nim.of(5, 4, 3));
